@@ -1,6 +1,5 @@
 import os
 
-
 def find_files(suffix, path):
     """
     Find all files beneath path with file name suffix.

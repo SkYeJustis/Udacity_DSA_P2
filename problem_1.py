@@ -1,5 +1,3 @@
-
-
 class Node(object):
     """ Double linked node"""
     def __init__(self, key, value):
