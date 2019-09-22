@@ -1,6 +1,5 @@
 import hashlib
 import time
-import unittest
 
 class Block:
     def __init__(self, timestamp, data, previous_hash, index=0):
@@ -41,66 +40,6 @@ class BlockChain:
 
         return new_block
 
-###################################################################################################################
-
-class Test_Case_1(unittest.TestCase):
-    def setUp(self):
-        self.blockchain = BlockChain("Starting info")
-
-    def test(self):
-        for _ in range(5):
-            self.blockchain.add_block("New information")
-
-        print("Check that the previous_hash is the same as the previous block's hash.")
-        # Solution: The previous_hash is the same as the previous block's hash
-        current_block = self.blockchain.latest_block
-        for i in range(self.blockchain.size):
-            previous_hash = current_block.previous_hash
-            if previous_hash != 0:
-                current_block = current_block.previous_block
-                print(f" {previous_hash} == {current_block.hash} ")
-                self.assertTrue(current_block.hash == previous_hash)
-
-class Test_Case_2(unittest.TestCase):
-    def setUp(self):
-        self.blockchain = BlockChain("Starting info")
-
-    def test(self):
-        self.blockchain.add_block("Info 1")
-        self.blockchain.add_block(None)
-        self.blockchain.add_block("Info 2")
-        self.blockchain.add_block(None)
-
-        print("Check that the previous_hash is the same as the previous block's hash.")
-        # Solution: The previous_hash is the same as the previous block's hash
-        current_block = self.blockchain.latest_block
-        for i in range(self.blockchain.size):
-            previous_hash = current_block.previous_hash
-            if previous_hash != 0:
-                current_block = current_block.previous_block
-                print(f" {previous_hash} == {current_block.hash} ")
-                self.assertTrue(current_block.hash == previous_hash)
-
-
-class Test_Case_3(unittest.TestCase):
-    def setUp(self):
-        self.blockchain = BlockChain("Starting info")
-
-    def test(self):
-        self.blockchain.add_block(1)
-        self.blockchain.add_block(2)
-        self.blockchain.add_block(3)
-        self.blockchain.add_block(4)
-        self.blockchain.add_block(5)
-
-        print("Check that the hashes are different per block.")
-        # Solution: All hash values in the of the current block should be different from hash of the previous block
-        current_block = self.blockchain.latest_block
-        while current_block.previous_block:
-            print(f" {current_block.hash} <> {current_block.previous_block.hash} ")
-            self.assertTrue(current_block.hash != current_block.previous_block.hash)
-            current_block = current_block.previous_block
-
 """
 References:
     Udacity: Data Structures and Nanodegree Program - 2. Data Structures
@@ -108,4 +47,61 @@ References:
 """
 
 if __name__ == '__main__':
-    unittest.main()
+
+    def test_case_1():
+        blockchain = BlockChain("Starting info")
+
+        for _ in range(5):
+            blockchain.add_block("New information")
+
+        print("Check that the previous_hash is the same as the previous block's hash.")
+        # Solution: The previous_hash is the same as the previous block's hash
+        current_block = blockchain.latest_block
+        for i in range(blockchain.size):
+            previous_hash = current_block.previous_hash
+            if previous_hash != 0:
+                current_block = current_block.previous_block
+                print(f" {previous_hash} == {current_block.hash} ")
+                assert current_block.hash == previous_hash
+
+    def test_case_2():
+        blockchain = BlockChain("Starting info")
+
+        blockchain.add_block("Info 1")
+        blockchain.add_block(None)
+        blockchain.add_block("Info 2")
+        blockchain.add_block(None)
+
+        print("Check that the previous_hash is the same as the previous block's hash.")
+        # Solution: The previous_hash is the same as the previous block's hash
+        current_block = blockchain.latest_block
+        for i in range(blockchain.size):
+            previous_hash = current_block.previous_hash
+            if previous_hash != 0:
+                current_block = current_block.previous_block
+                print(f" {previous_hash} == {current_block.hash} ")
+                assert current_block.hash == previous_hash
+
+
+    def test_case_3():
+        blockchain = BlockChain("Starting info")
+
+        blockchain.add_block(1)
+        blockchain.add_block(2)
+        blockchain.add_block(3)
+        blockchain.add_block(4)
+        blockchain.add_block(5)
+
+        print("Check that the hashes are different per block.")
+        # Solution: All hash values in the of the current block should be different from hash of the previous block
+        current_block = blockchain.latest_block
+        while current_block.previous_block:
+            print(f" {current_block.hash} <> {current_block.previous_block.hash} ")
+            assert current_block.hash != current_block.previous_block.hash
+            current_block = current_block.previous_block
+
+
+
+    test_case_1()
+    test_case_2()
+    test_case_3()

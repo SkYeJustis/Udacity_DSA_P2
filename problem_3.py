@@ -1,6 +1,5 @@
 import sys
 from collections import deque
-import unittest
 import re
 
 class Node:
@@ -165,104 +164,39 @@ def build_huffman_tree(frequency_map):
 
     return tree
 
-####################################################################################################################
 
 def huffman_encoding(data):
-    assert isinstance(data, str)
+    try:
+        assert isinstance(data, str)
 
-    frequency_map = build_frequency_map(data)
-    tree = build_huffman_tree(frequency_map)
-    tree.encode_traverse()
-    # Get encoded
-    encoded_data = ""
-    for l in data:
-        encoded_data += tree.code_map[l]
-    return encoded_data, tree
+        frequency_map = build_frequency_map(data)
+        tree = build_huffman_tree(frequency_map)
+        tree.encode_traverse()
+        # Get encoded
+        encoded_data = ""
+        for l in data:
+            encoded_data += tree.code_map[l]
+        return encoded_data, tree
+    except AssertionError as error:
+        print("ERROR: 'data' type is not a string")
 
 
 def huffman_decoding(data, tree):
-    assert isinstance(data, str) and isinstance(tree, Tree) and bool(re.match('^[01]+$', data))
-    decoded_data = ""
-    node = tree.get_root()
-    for i in data:
-        if i == "0":
-            node = node.left
-        else:
-            node = node.right
-        if node.letter:
-            decoded_data += node.letter
-            node = tree.get_root()
-    return decoded_data
-
-###################################################################################################################
-
-class Tests_Regular_1(unittest.TestCase):
-    def setUp(self):
-        self.a_great_sentence = "The bird is the word"
-
-    def tests_regular_1(self):
-        #print("The size of the data is: {}\n".format(sys.getsizeof(self.a_great_sentence)))
-        #print("The content of the data is: {}\n".format(self.a_great_sentence))
-
-        encoded_data, tree = huffman_encoding(self.a_great_sentence)
-
-        #print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-        #print("The content of the encoded data is: {}\n".format(encoded_data))
-
-        decoded_data = huffman_decoding(encoded_data, tree)
-
-        #print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-        #print("The content of the encoded data is: {}\n".format(decoded_data))
-
-        print(f"Test: Input string is {self.a_great_sentence}")
-        # Solution: Decoded string is a_great_sentence
-        self.assertTrue(self.a_great_sentence == decoded_data)
-
-        print(f"Test: Size of encoded data vs decoded data")
-        # Solution: Non-encoded data should be of greater size for encoded data, due to compression
-        self.assertTrue(sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(self.a_great_sentence))
-        self.assertTrue(sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(decoded_data))
-        self.assertTrue(sys.getsizeof(decoded_data) == sys.getsizeof(self.a_great_sentence))
-
-
-class Tests_Regular_2(unittest.TestCase):
-    def setUp(self):
-        self.a_great_sentence = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way - in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
-
-    def tests(self):
-
-        encoded_data, tree = huffman_encoding(self.a_great_sentence)
-
-        decoded_data = huffman_decoding(encoded_data, tree)
-
-        print(f"Test: Input string is {self.a_great_sentence}")
-        # Solution: Decoded string is the same as a_great_sentence
-        self.assertTrue(self.a_great_sentence == decoded_data)
-
-        print(f"Test: Size of encoded data vs decoded data")
-        # Solution: Non-encoded data should be of greater size for encoded data, due to compression
-        self.assertTrue(sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(self.a_great_sentence))
-        self.assertTrue(sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(decoded_data))
-        self.assertTrue(sys.getsizeof(decoded_data) == sys.getsizeof(self.a_great_sentence))
-
-class Tests_Irregular_3(unittest.TestCase):
-    def setUp(self):
-        self.a_great_sentence = 90210
-
-    def tests(self):
-        print("Test: Invalid datatype for huffman_encoding")
-        # Solution: AssertionError is expected since the input data is not a string
-        self.assertRaises(AssertionError, huffman_encoding,  self.a_great_sentence)
-
-class Tests_Irregular_4(unittest.TestCase):
-    def setUp(self):
-        self.encoded_data = 12343
-        self.tree = None
-
-    def tests(self):
-        print("Test: Invalid datatype for huffman_decoding")
-        # Solution: AssertionError is expected since data != str, tree != Tree object, or data is not completely comprised of 0s and 1s
-        self.assertRaises(AssertionError, huffman_decoding, self.encoded_data, self.tree)
+    try:
+        assert isinstance(data, str) and isinstance(tree, Tree) and bool(re.match('^[01]+$', data))
+        decoded_data = ""
+        node = tree.get_root()
+        for i in data:
+            if i == "0":
+                node = node.left
+            else:
+                node = node.right
+            if node.letter:
+                decoded_data += node.letter
+                node = tree.get_root()
+        return decoded_data
+    except AssertionError as error:
+        print("ERROR: Input values do not meet type requirements or the encoded 'data' are not binary.")
 
 """
 References:
@@ -270,4 +204,67 @@ References:
 """
 
 if __name__ == "__main__":
-    unittest.main()
+    def test_case_1():
+        a_great_sentence = "The bird is the word"
+
+        # print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+        # print("The content of the data is: {}\n".format(a_great_sentence))
+
+        encoded_data, tree = huffman_encoding(a_great_sentence)
+
+        # print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+        # print("The content of the encoded data is: {}\n".format(encoded_data))
+
+        decoded_data = huffman_decoding(encoded_data, tree)
+
+        # print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+        # print("The content of the encoded data is: {}\n".format(decoded_data))
+
+        print(f"Test: Input string is {a_great_sentence}")
+        # Solution: Decoded string is a_great_sentence
+        assert a_great_sentence == decoded_data
+
+        print(f"Test: Size of encoded data vs decoded data")
+        # Solution: Non-encoded data should be of greater size for encoded data, due to compression
+        assert sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(a_great_sentence)
+        assert sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(decoded_data)
+        assert sys.getsizeof(decoded_data) == sys.getsizeof(a_great_sentence)
+
+    def test_case_2():
+        # Tale of Two Cities  Charles Dickens
+        a_great_sentence = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way - in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
+
+        encoded_data, tree = huffman_encoding(a_great_sentence)
+
+        decoded_data = huffman_decoding(encoded_data, tree)
+
+        print(f"Test: Input string is {a_great_sentence}")
+        # Solution: Decoded string is the same as a_great_sentence
+        assert a_great_sentence == decoded_data
+
+        print(f"Test: Size of encoded data vs decoded data")
+        # Solution: Non-encoded data should be of greater size for encoded data, due to compression
+        assert sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(a_great_sentence)
+        assert sys.getsizeof(int(encoded_data, base=2)) < sys.getsizeof(decoded_data)
+        assert sys.getsizeof(decoded_data) == sys.getsizeof( a_great_sentence)
+
+    def test_case_3():
+        a_great_sentence = 90210
+
+        print("Test: Invalid datatype for huffman_encoding")
+        # Solution: AssertionError is expected since the input data is not a string
+        huffman_encoding(a_great_sentence)
+
+    def test_case_4():
+        encoded_data = 12343
+        tree = None
+
+        print("Test: Invalid datatype for huffman_decoding")
+        # Solution: AssertionError is expected since data != str, tree != Tree object, or data is not completely comprised of 0s and 1s
+        huffman_decoding(encoded_data, tree)
+
+
+    test_case_1()
+    test_case_2()
+    test_case_3()
+    test_case_4()

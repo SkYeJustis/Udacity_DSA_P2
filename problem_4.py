@@ -1,4 +1,4 @@
-import unittest
+
 
 class Group(object):
     def __init__(self, _name):
@@ -40,114 +40,101 @@ def is_user_in_group(user, group):
     """
     return helper(user, group)
 
-##################################################################################################################
-
-class GroupTestCase1_NestedUser(unittest.TestCase):
-    def setUp(self):
-        self.parent = Group("parent")
-        self.child = Group("child")
-        self.sub_child = Group("subchild")
-        self.sub_child_user = "sub_child_user"
-        self.sub_child.add_user(self.sub_child_user)
-        self.child.add_group(self.sub_child)
-        self.parent.add_group(self.child)
-
-    def test_subchild(self):
-        print("Test: Check if sub_child_user is in sub_child group")
-        # Solution True
-        self.assertTrue(is_user_in_group(self.sub_child_user, self.sub_child))
-
-    def test_child(self):
-        print("Test: Check if sub_child_user is in child group")
-        # Solution True
-        self.assertTrue(is_user_in_group(self.sub_child_user, self.child))
-
-    def test_parent(self):
-        print("Test: Check if sub_child_user is in parent group")
-        # Solution True
-        self.assertTrue(is_user_in_group(self.sub_child_user, self.parent))
-
-class GroupTestCase2_PartialNestedUser(unittest.TestCase):
-    def setUp(self):
-        self.parent = Group("parent")
-        self.child = Group("child")
-        self.sub_child = Group("subchild")
-        self.child_user = "child_user"
-        self.child.add_user(self.child_user)
-        self.child.add_group(self.sub_child)
-        self.parent.add_group(self.child)
-
-    def test_subchild(self):
-        print("Test: Check if child_user is in sub_child group")
-        # Solution False
-        self.assertFalse(is_user_in_group(self.child_user, self.sub_child))
-
-    def test_child(self):
-        print("Test: Check if child_user is in child group")
-        # Solution True
-        self.assertTrue(is_user_in_group(self.child_user, self.child))
-
-    def test_parent(self):
-        print("Test: Check if child_user is in parent group")
-        # Solution True
-        self.assertTrue(is_user_in_group(self.child_user, self.parent))
-
-class GroupTestCase3_NotNestedUser(unittest.TestCase):
-    def setUp(self):
-        self.parent = Group("parent")
-        self.child = Group("child")
-        self.sub_child = Group("subchild")
-        self.parent_user = "parent_user"
-        self.parent.add_user(self.parent_user)
-        self.child.add_group(self.sub_child)
-        self.parent.add_group(self.child)
-
-    def test_subchild(self):
-        print("Test: Check if parent user is in sub_child group")
-        # Solution False
-        self.assertFalse(is_user_in_group(self.parent_user, self.sub_child))
-
-    def test_child(self):
-        print("Test: Check if parent user is in child group")
-        # Solution: False
-        self.assertFalse(is_user_in_group(self.parent_user, self.child))
-
-    def test_parent(self):
-        print("Test: Check if parent user is in parent group")
-        # Solution: True
-        self.assertTrue(is_user_in_group(self.parent_user, self.parent))
-
-class GroupTestCase4_MixedValues(unittest.TestCase):
-    def setUp(self):
-        self.parent = Group("parent")
-        self.child = Group(1)
-        self.sub_child = Group(2)
-        self.parent_user = None
-        self.parent.add_user(self.parent_user)
-        self.child.add_group(self.sub_child)
-        self.parent.add_group(self.child)
-
-    def test_subchild(self):
-        print("Test: Check if parent user is in sub_child group")
-        # Solution False
-        self.assertFalse(is_user_in_group(self.parent_user, self.sub_child))
-
-    def test_child(self):
-        print("Test: Check if parent user is in child group")
-        # Solution: False
-        self.assertFalse(is_user_in_group(self.parent_user, self.child))
-
-    def test_parent(self):
-        print("Test: Check if parent user is in parent group")
-        # Solution: True
-        self.assertTrue(is_user_in_group(self.parent_user, self.parent))
-
 """
 References:
     Udacity: Data Structures and Nanodegree Program - 2. Data Structures
 """
 
 if __name__ == '__main__':
-    unittest.main()
+    def group_test_case__nested_user():
+        parent = Group("parent")
+        child = Group("child")
+        sub_child = Group("subchild")
+        sub_child_user = "sub_child_user"
+        sub_child.add_user(sub_child_user)
+        child.add_group(sub_child)
+        parent.add_group(child)
+
+        print("Test: Check if sub_child_user is in sub_child group")
+        # Solution True
+        assert is_user_in_group(sub_child_user, sub_child) == True
+
+        print("Test: Check if sub_child_user is in child group")
+        # Solution True
+        assert is_user_in_group(sub_child_user, child) == True
+
+        print("Test: Check if sub_child_user is in parent group")
+        # Solution True
+        assert is_user_in_group(sub_child_user, parent) == True
 
 
+    def group_test_case__partial_nested_user():
+        parent = Group("parent")
+        child = Group("child")
+        sub_child = Group("subchild")
+        child_user = "child_user"
+        child.add_user(child_user)
+        child.add_group(sub_child)
+        parent.add_group(child)
+
+        print("Test: Check if child_user is in sub_child group")
+        # Solution False
+        assert is_user_in_group(child_user, sub_child) == False
+
+        print("Test: Check if child_user is in child group")
+        # Solution True
+        assert is_user_in_group(child_user, child) == True
+
+        print("Test: Check if child_user is in parent group")
+        # Solution True
+        assert is_user_in_group(child_user, parent) == True
+
+
+    def group_test_case__not_nested_user():
+        parent = Group("parent")
+        child = Group("child")
+        sub_child = Group("subchild")
+        parent_user = "parent_user"
+        parent.add_user(parent_user)
+        child.add_group(sub_child)
+        parent.add_group(child)
+
+        print("Test: Check if parent user is in sub_child group")
+        # Solution False
+        assert is_user_in_group(parent_user, sub_child) == False
+
+        print("Test: Check if parent user is in child group")
+        # Solution: False
+        assert is_user_in_group(parent_user, child) == False
+
+        print("Test: Check if parent user is in parent group")
+        # Solution: True
+        assert is_user_in_group(parent_user, parent) == True
+
+
+    def group_test_case__mixed_values():
+        parent = Group("parent")
+        child = Group(1)
+        sub_child = Group(2)
+        parent_user = None
+        parent.add_user(parent_user)
+        child.add_group(sub_child)
+        parent.add_group(child)
+
+        print("Test: Check if parent user is in sub_child group")
+        # Solution: False
+        assert is_user_in_group(parent_user, sub_child) == False
+
+        print("Test: Check if parent user is in child group")
+        # Solution: False
+        assert is_user_in_group(parent_user, child) == False
+
+        print("Test: Check if parent user is in parent group")
+        # Solution: True
+        assert is_user_in_group(parent_user, parent) == True
+
+
+    group_test_case__nested_user()
+    group_test_case__partial_nested_user()
+    group_test_case__not_nested_user()
+    group_test_case__mixed_values()
