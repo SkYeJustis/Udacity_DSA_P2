@@ -142,6 +142,11 @@ class GroupTestCase4_MixedValues(unittest.TestCase):
         # Solution: True
         self.assertTrue(is_user_in_group(self.parent_user, self.parent))
 
+"""
+References:
+    Udacity: Data Structures and Nanodegree Program - 2. Data Structures
+"""
+
 if __name__ == '__main__':
     unittest.main()
 

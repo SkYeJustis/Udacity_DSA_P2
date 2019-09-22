@@ -91,6 +91,10 @@ class FindFiles_Case_2(unittest.TestCase):
         # Solution: []
         self.assertTrue(find_files('.c', 123456778) == [])
 
+"""
+References:
+    Udacity: Data Structures and Nanodegree Program - 2. Data Structures
+"""
 
 if __name__ == '__main__':
     unittest.main()

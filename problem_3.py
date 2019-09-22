@@ -264,6 +264,10 @@ class Tests_Irregular_4(unittest.TestCase):
         # Solution: AssertionError is expected since data != str, tree != Tree object, or data is not completely comprised of 0s and 1s
         self.assertRaises(AssertionError, huffman_decoding, self.encoded_data, self.tree)
 
+"""
+References:
+    Udacity: Data Structures and Nanodegree Program - 2. Data Structures
+"""
 
 if __name__ == "__main__":
     unittest.main()

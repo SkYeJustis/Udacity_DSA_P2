@@ -101,5 +101,11 @@ class Test_Case_3(unittest.TestCase):
             self.assertTrue(current_block.hash != current_block.previous_block.hash)
             current_block = current_block.previous_block
 
+"""
+References:
+    Udacity: Data Structures and Nanodegree Program - 2. Data Structures
+    https://medium.com/crypto-currently/lets-build-the-tiniest-blockchain-e70965a248b
+"""
+
 if __name__ == '__main__':
     unittest.main()
